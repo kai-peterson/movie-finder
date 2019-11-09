@@ -16,6 +16,7 @@ import { takeEvery, put } from 'redux-saga/effects';
 function* rootSaga() {
     yield takeEvery('GET_MOVIES', getMovieSaga);
     yield takeEvery('GET_DETAILS', getMovieDetailsSaga);
+    yield takeEvery('UPDATE_DETAILS', updateMovieDetailsSaga);
 }
 
 // Create saga to grab movies from db
@@ -32,10 +33,23 @@ function* getMovieSaga(action) {
 function* getMovieDetailsSaga(action) {
     try {
         const movieDetails = yield axios.get(`/movies/${action.payload}`)
-        yield put({type: 'SET_DETAILS', payload: movieDetails.data[0]})
+        const movieGenre = yield axios.get(`/movies/genre/${action.payload}`)
+        yield put({type: 'SET_DETAILS', payload: [movieDetails.data[0], movieGenre.data]})
     }
     catch (error) {
-        console.log('error in getMovieSaga', error);
+        console.log('error in getMovieDetailsSaga', error);
+    }
+}
+
+function* updateMovieDetailsSaga(action) {
+    try {
+        console.log(action.payload);
+        
+        yield axios.put(`/movies/${action.payload.id}`, {title: action.payload.title, description: action.payload.description});
+        yield put({type: 'GET_DETAILS', payload: action.payload.id})
+    }
+    catch (error) {
+        console.log('error in updateMovieDetailsSaga', error);
     }
 }
 
@@ -53,10 +67,12 @@ const movies = (state = [], action) => {
 }
 
 // Used to store a single movie's details
-const movieDetails = (state = [], action) => {
+const movieDetails = (state = {}, action) => {
+    console.log(action);
+    
     switch (action.type) {
         case 'SET_DETAILS':
-            return action.payload;
+            return {details: action.payload[0], genres: action.payload[1]};
         default:
             return state;
     }
