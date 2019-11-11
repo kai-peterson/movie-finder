@@ -12,18 +12,12 @@ CREATE TABLE "genres" (
 );
 
 -- junction table
+-- junction inserts at bottom
 CREATE TABLE "movies_genres_junction" (
 	"id" SERIAL PRIMARY KEY,
 	"movie-id" INT REFERENCES movies,
 	"genre-id" INT REFERENCES genres
 );
-
-
--- CREATE JUNCTION TABLE
--- You will need to create the junction table that stores the relationships between "movies" and "genres"
--- This table will need to be populated with some data as well (INSERTS)
--- Recall that this Junction Table will just be a table of ids!
-
 
 
 --------[ DATA! ]---------
@@ -65,10 +59,25 @@ VALUES
 
 
 -- junction inserts
-INSERT INTO movies_genres_junction ("movie-id", "genre-id") VALUES (1, 2);
+INSERT INTO movies_genres_junction ("movie-id", "genre-id") 
+VALUES 
+(1, 1), (1, 2), (1, 9), (1, 12), 
+(2, 9), (2, 10), (2, 11), 
+(3, 1), (3, 2), (3, 12), 
+(4, 2), (4, 3), (4, 5), 
+(5, 7), 
+(6, 2), (6, 9), 
+(7, 1), (7, 2), 
+(8, 2), (8, 7), (8, 9), 
+(9, 1), (9, 2), (9, 5), (9, 9), 
+(10, 1), (10, 2), (10, 9), (10, 12), 
+(11, 2), (11, 7), (11, 12), 
+(12, 4), (12, 7), 
+(13, 7), (13, 11), 
+(14, 2), (14, 3), (14, 5), (14, 9);
 
-SELECT * FROM movies WHERE id=2;
-
-INSERT INTO movies_genres_junction ("movie-id", "genre-id") VALUES (1, 1), (1, 2), (1, 9), (1, 12), (2, 9), (2, 10), (2, 11), (3, 1), (3, 2), (3, 12), (4, 2), (4, 3), (4, 5), (5, 7), (6, 2), (6, 9), (7, 1), (7, 2), (8, 2), (8, 7), (8, 9), (9, 1), (9, 2), (9, 5), (9, 9), (10, 1), (10, 2), (10, 9), (10, 12), (11, 2), (11, 7), (11, 12), (12, 4), (12, 7), (13, 7), (13, 11), (14, 2), (14, 3), (14, 5), (14, 9);
-
-SELECT genres.name FROM movies JOIN movies_genres_junction ON movies.id=movies_genres_junction."movie-id" JOIN genres ON movies_genres_junction."genre-id"=genres.id WHERE movies.id=1 GROUP BY genres.name;
+SELECT genres.name FROM movies 
+JOIN movies_genres_junction ON movies.id=movies_genres_junction."movie-id" 
+JOIN genres ON movies_genres_junction."genre-id"=genres.id 
+WHERE movies.id=1 
+GROUP BY genres.name;

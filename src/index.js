@@ -30,6 +30,8 @@ function* getMovieSaga(action) {
     }
 }
 
+// Create saga to get a single movie's details and genres from db
+// dispatch details and genres as an array to SET_DETAILS reducer
 function* getMovieDetailsSaga(action) {
     try {
         const movieDetails = yield axios.get(`/movies/${action.payload}`)
@@ -41,6 +43,9 @@ function* getMovieDetailsSaga(action) {
     }
 }
 
+// Create saga to update a movie's details in db
+// recieves and action with new title/description and makes put req to update in db
+// dispatch to GET_DETAILS to re-render correct movie info on DOM
 function* updateMovieDetailsSaga(action) {
     try {
         console.log(action.payload);
@@ -67,6 +72,7 @@ const movies = (state = [], action) => {
 }
 
 // Used to store a single movie's details
+// also stores genres for the movie that's currently being held here
 const movieDetails = (state = {}, action) => {
     console.log(action);
     
@@ -78,21 +84,10 @@ const movieDetails = (state = {}, action) => {
     }
 }
 
-// Used to store the movie genres
-const genres = (state = [], action) => {
-    switch (action.type) {
-        case 'SET_GENRES':
-            return action.payload;
-        default:
-            return state;
-    }
-}
-
 // Create one store that all components can use
 const storeInstance = createStore(
     combineReducers({
         movies,
-        genres,
         movieDetails,
     }),
     // Add sagaMiddleware to our store
