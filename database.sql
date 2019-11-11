@@ -11,6 +11,13 @@ CREATE TABLE "genres" (
   "name" VARCHAR(80) NOT NULL
 );
 
+-- junction table
+CREATE TABLE "movies_genres_junction" (
+	"id" SERIAL PRIMARY KEY,
+	"movie-id" INT REFERENCES movies,
+	"genre-id" INT REFERENCES genres
+);
+
 
 -- CREATE JUNCTION TABLE
 -- You will need to create the junction table that stores the relationships between "movies" and "genres"
@@ -57,7 +64,7 @@ VALUES
 ('Superhero');
 
 
--- junction
+-- junction inserts
 INSERT INTO movies_genres_junction ("movie-id", "genre-id") VALUES (1, 2);
 
 SELECT * FROM movies WHERE id=2;
