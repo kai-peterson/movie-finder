@@ -1,0 +1,9 @@
+.allMovies { 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.movieCard { 
+    width: 330px;
+}
