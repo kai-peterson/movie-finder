@@ -1,0 +1,48 @@
+.genreBox { 
+    background-color: rgb(37, 37, 37);
+    color: white;
+    margin: 5px;
+    padding: 7px;
+    border-radius: 10px;
+}
+
+.genreTitle { 
+    font-weight: bold;
+    font-size: 18;
+}
+
+.movieDescription { 
+    max-width: 30vw;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.movieDetailsContainer { 
+    width: 30vw;
+    padding: 30px;
+    margin: 0 auto;
+    margin-top: 20px;
+    border: 2px solid black;
+    border-radius: 20px;
+}
+
+.editInput {
+    margin: 10px;
+    margin-top: 20px;
+    width: 300px;
+    font-size: 18px;
+    text-align: center;
+}
+
+.editTextArea {
+    margin: 10px;
+    margin-bottom: 20px;
+    width: 500px;
+    height: 150px;
+    font-size: 16px;
+}
+
+.MuiButton {
+    margin: 10px;
+}

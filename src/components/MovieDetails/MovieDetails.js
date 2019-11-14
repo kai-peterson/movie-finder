@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Paper, Button } from '@material-ui/core'
+import './MovieDetails.css'
 
 class MovieDetails extends Component {
     state = {
@@ -48,7 +50,7 @@ class MovieDetails extends Component {
     // dispatch local state (which is updated with onChange when they type) to saga
     // saga updates in db with put req
     handleSaveClick = () => {
-        this.props.dispatch({type: 'UPDATE_DETAILS', payload: this.state.details});
+        this.props.dispatch({ type: 'UPDATE_DETAILS', payload: this.state.details });
         // swap mode back
         this.setState({
             mode: !this.state.mode
@@ -57,55 +59,50 @@ class MovieDetails extends Component {
 
     render() {
         return (
-            <>  
+            <>
                 {/* Render normal movie details if mode is true (default) */}
                 {this.state.mode &&
                     <>
-                        <button onClick={this.backToHome}>Back to List</button>
-                        <button onClick={() => this.handleClick('edit')}>Edit</button>
-                        {this.props.movieDetails && this.props.movieDetails.details && this.props.movieDetails.genres &&
-                            <div>
-                                <img src={this.props.movieDetails.details.poster} alt={this.props.movieDetails.details.title + ' movie poster'}/>
-                                <h2>{this.props.movieDetails.details.title}</h2>
-                                <p>{this.props.movieDetails.details.description}</p>
-                                <ul>
+                        <Button onClick={() => this.handleClick('edit')}>Edit</Button>
+                        <Button onClick={this.backToHome}>Back to List</Button>
+                        <Paper className="movieDetailsContainer">
+                            {this.props.movieDetails && this.props.movieDetails.details && this.props.movieDetails.genres &&
+                                <div>
+                                    <img src={this.props.movieDetails.details.poster} alt={this.props.movieDetails.details.title + ' movie poster'} />
+                                    <h2>{this.props.movieDetails.details.title}</h2>
+                                    <p className="movieDescription">{this.props.movieDetails.details.description}</p>
+                                    {/* <span className="genreTitle">
+                                    Genres: {' '}
+                                </span> */}
                                     {this.props.movieDetails.genres.map((genre, i) =>
-                                        <li key={i}>
-                                            {genre.name}
-                                        </li>
+                                        <span className="genreBox">{genre.name + ' '}</span>
                                     )}
-                                </ul>
-                                <pre>{JSON.stringify(this.props.movieDetails.details, null, 2)}</pre>
-                                <pre>{JSON.stringify(this.props.movieDetails.genres, null, 2)}</pre>
-                            </div>
-                        }
+                                </div>
+                            }
+                        </Paper>
                     </>
                 }
                 {/* Render edit mode details (put title/description into inputs) if mode is false */}
                 {this.state.mode === false &&
                     <>
-                        <button onClick={this.backToHome}>Back to List</button>
-                        <button onClick={this.handleSaveClick}>Save</button>
-                        <button onClick={this.handleClick}>Cancel</button>
-                        {this.props.movieDetails && this.props.movieDetails.details && this.props.movieDetails.genres &&
-                            <div>
-                                <img src={this.props.movieDetails.details.poster} alt={this.props.movieDetails.details.title + ' movie poster'}/>
-                                <br/>
-                                <input onChange={this.handleChange('title')} type="text" value={this.state.details.title} />
-                                <br/>
-                                <textarea onChange={this.handleChange('description')} value={this.state.details.description}></textarea>
-                                <ul>
+                        <Button onClick={this.handleSaveClick}>Save</Button>
+                        <Button onClick={this.handleClick}>Cancel</Button>
+                        <Button onClick={this.backToHome}>Back to List</Button>
+                        <Paper className="movieDetailsContainer">
+                            {this.props.movieDetails && this.props.movieDetails.details && this.props.movieDetails.genres &&
+                                <div>
+                                    <img src={this.props.movieDetails.details.poster} alt={this.props.movieDetails.details.title + ' movie poster'} />
+                                    <br />
+                                    <input className="editInput" onChange={this.handleChange('title')} type="text" value={this.state.details.title} />
+                                    <br />
+                                    <textarea className="editTextArea" onChange={this.handleChange('description')} value={this.state.details.description}></textarea>
+                                    <br />
                                     {this.props.movieDetails.genres.map((genre, i) =>
-                                        <li key={i}>
-                                            {genre.name}
-                                        </li>
+                                        <span className="genreBox">{genre.name + ' '}</span>
                                     )}
-                                </ul>
-                                <pre>{JSON.stringify(this.state, null, 2)}</pre>
-                                <pre>{JSON.stringify(this.props.movieDetails.details, null, 2)}</pre>
-                                <pre>{JSON.stringify(this.props.movieDetails.genres, null, 2)}</pre>
-                            </div>
-                        }
+                                </div>
+                            }
+                        </Paper>
                     </>
                 }
             </>
