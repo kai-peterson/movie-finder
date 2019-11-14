@@ -54,8 +54,8 @@ class MovieList extends Component {
                         </CardContent>
                     </CardActionArea>
                     {!this.state.isExpanded ?
-                        <Button onClick={this.handleExpansion}>Show more</Button> :
-                        <Button onClick={this.handleExpansion}>Show less</Button>
+                        <Button fullWidth disableRipple onClick={this.handleExpansion}>Show more</Button> :
+                        <Button fullWidth disableRipple onClick={this.handleExpansion}>Show less</Button>
                     }
                 </Card>
             </div>
