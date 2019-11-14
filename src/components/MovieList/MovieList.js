@@ -3,8 +3,16 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import './MovieList.css'
 
+// Component imports
+import MovieItem from '../MovieItem/MovieItem'
+
 class MovieList extends Component {
-    // Renders the entire app on the DOM
+    state = {
+        expansionPanel: {
+            charactersToShow: 300,
+            isExpanded: false,
+        }
+    }
 
     // make GET req to grab movies on page render
     componentDidMount() {
@@ -12,23 +20,22 @@ class MovieList extends Component {
         this.props.dispatch({ type: 'GET_MOVIES' })
     }
 
+    handleExpansion = () => {
+
+    }
+
     // on click, dispatch to GET_DETAILS saga with specific movie id
     // send users to /details page
-    handleClick = (id) => {
-        this.props.history.push('/details')
-        this.props.dispatch({type: 'GET_DETAILS', payload: id});
-    }
 
     render() {
         return (
             <div className="allMovies">
                 {this.props.movies.map((movie) =>
-                    <div className="movieCard" key={movie.id}>
-                        {/* pass movie id to handleClick function onClick */}
-                        <img onClick={() => this.handleClick(movie.id)} src={movie.poster} alt={movie.title + ' movie poster'} />
-                        <h2>{movie.title}</h2>
-                        <p>{movie.description}</p>
-                    </div>)}
+                    <MovieItem movie={movie}/>
+                )}
+                {/* <img onClick={() => this.handleClick(movie.id)} src={movie.poster} alt={movie.title + ' movie poster'} />
+                            <h2>{movie.title}</h2>
+                            <p>{movie.description}</p> */}
             </div>
         );
     }

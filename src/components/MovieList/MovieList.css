@@ -6,4 +6,18 @@
 
 .movieCard { 
     width: 330px;
+    margin: 30px;
+}
+
+.movieImage {
+    padding-top: 20px;
+}
+
+.movieDescription {
+    max-height: 150px;
+}
+
+.movieTitle { 
+    padding-top: 10px;
+    padding-bottom: 15px;
 }
