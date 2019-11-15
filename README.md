@@ -32,7 +32,7 @@ Features:
 ### Tech
 
 - React
-- tmdb API
+- API (tmdb)
 - Material-ui
 - Node.js
 - Express
