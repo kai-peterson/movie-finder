@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import './SearchMovieItem.css'
 
 // Material-ui imports
 import { Card, CardActionArea, CardContent, Typography, Button } from '@material-ui/core'
 
 class SearchMovieItem extends Component {
+    state = {
+        isAdded: false,
+    }
 
     handleClick = (movie) => {
         this.props.dispatch({type: 'ADD_MOVIE', payload: movie})
+        this.setState({
+            isAdded: true,
+        })
     }
 
     render() {
@@ -29,7 +36,10 @@ class SearchMovieItem extends Component {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <Button onClick={() => this.handleClick(this.props.movie)} fullWidth>Add Movie</Button>
+                            {!this.state.isAdded ? 
+                                <Button onClick={() => this.handleClick(this.props.movie)} fullWidth>Add Movie</Button> :
+                                <Button className="addedButton" fullWidth disabled>Added</Button>
+                            }
                         </Card>
                     </div>
                 }

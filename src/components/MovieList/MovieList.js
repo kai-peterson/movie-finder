@@ -29,10 +29,6 @@ class MovieList extends Component {
                 {this.props.movies.map((movie) =>
                     <MovieItem movie={movie} />
                 )}
-                {/* <img onClick={() => this.handleClick(movie.id)} src={movie.poster} alt={movie.title + ' movie poster'} />
-                            <h2>{movie.title}</h2>
-                            <p>{movie.description}</p> */}
-                <pre>{JSON.stringify(this.props.searchResults, null, 2)}</pre>
             </div>
         );
     }
