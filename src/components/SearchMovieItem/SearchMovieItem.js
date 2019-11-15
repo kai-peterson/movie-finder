@@ -29,7 +29,7 @@ class SearchMovieItem extends Component {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <Button onClick={() => this.handleClick(this.props.movie)} fullWidth disableRipple>Add Movie</Button>
+                            <Button onClick={() => this.handleClick(this.props.movie)} fullWidth>Add Movie</Button>
                         </Card>
                     </div>
                 }
