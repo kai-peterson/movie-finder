@@ -1,0 +1,25 @@
+.searchResultsModal {
+    width: 90%;
+    margin: 100px auto;
+    background-color: rgba(255, 255, 255, 0.911);
+    border: 2px solid black;
+    border-radius: 20px;
+    overflow: scroll;
+}
+
+.resultsHeader {
+    height: fit-content;
+    color: black;
+    width: 100%
+}
+
+.modalContent {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 30px;
+}
+
+.searchMovieCard {
+    width: 300px;
+    margin: 30px;
+}

@@ -1,4 +1,5 @@
 .header {
+    display: flex;
     background-color: rgb(37, 37, 37);
     margin-bottom: 30px;
 }
@@ -6,5 +7,23 @@
 h1 {
     margin: 0;
     padding: 25px;
-    color: white
+    color: white;
+    display: inline-block;
+}
+
+.addNewMovie {
+    display: inline-block;
+    color: white;
+    margin: 0 auto;
+}
+
+.searchBar {
+    margin-left: 15px;
+    padding: 4px;
+    width: 200px;
+}
+
+.searchButton {
+    padding: 5px;
+    margin-left: 10px;
 }

@@ -17,13 +17,15 @@ function* rootSaga() {
     yield takeEvery('GET_MOVIES', getMovieSaga);
     yield takeEvery('GET_DETAILS', getMovieDetailsSaga);
     yield takeEvery('UPDATE_DETAILS', updateMovieDetailsSaga);
+    yield takeEvery('GET_API', movieApiSaga);
+    yield takeEvery('ADD_MOVIE', addMovieSaga);
 }
 
 // Create saga to grab movies from db
 function* getMovieSaga(action) {
     try {
         const allMovies = yield axios.get('/movies')
-        yield put({type: 'SET_MOVIES', payload: allMovies.data})
+        yield put({ type: 'SET_MOVIES', payload: allMovies.data })
     }
     catch (error) {
         console.log('error in getMovieSaga', error);
@@ -36,7 +38,7 @@ function* getMovieDetailsSaga(action) {
     try {
         const movieDetails = yield axios.get(`/movies/${action.payload}`)
         const movieGenre = yield axios.get(`/movies/genre/${action.payload}`)
-        yield put({type: 'SET_DETAILS', payload: [movieDetails.data[0], movieGenre.data]})
+        yield put({ type: 'SET_DETAILS', payload: [movieDetails.data[0], movieGenre.data] })
     }
     catch (error) {
         console.log('error in getMovieDetailsSaga', error);
@@ -49,12 +51,35 @@ function* getMovieDetailsSaga(action) {
 function* updateMovieDetailsSaga(action) {
     try {
         console.log(action.payload);
-        
-        yield axios.put(`/movies/${action.payload.id}`, {title: action.payload.title, description: action.payload.description});
-        yield put({type: 'GET_DETAILS', payload: action.payload.id})
+
+        yield axios.put(`/movies/${action.payload.id}`, { title: action.payload.title, description: action.payload.description });
+        yield put({ type: 'GET_DETAILS', payload: action.payload.id })
     }
     catch (error) {
         console.log('error in updateMovieDetailsSaga', error);
+    }
+}
+
+function* movieApiSaga(action) {
+    try {
+        console.log('payload in saga:', action.payload);
+        const searchResults = yield axios.get(`/movies/tmdb/api/${action.payload.searchInput}`)
+        yield put({type: 'SET_SEARCH_RESULTS', payload: searchResults.data})
+    }
+    catch (error) {
+        console.log('error in movieApiSaga', error);
+    }
+}
+
+function* addMovieSaga(action) {
+    try {
+        console.log(action.payload);
+        yield axios.post(`/movies/tmdb/details`, action.payload)
+        // yield console.log('THESE ARE THE MOVIE DETAILS', movieDetails);
+        
+    }
+    catch (error) {
+        console.log('error in addMovieSaga', error);
     }
 }
 
@@ -75,10 +100,19 @@ const movies = (state = [], action) => {
 // also stores genres for the movie that's currently being held here
 const movieDetails = (state = {}, action) => {
     console.log(action);
-    
+
     switch (action.type) {
         case 'SET_DETAILS':
-            return {details: action.payload[0], genres: action.payload[1]};
+            return { details: action.payload[0], genres: action.payload[1] };
+        default:
+            return state;
+    }
+}
+
+const searchResults = (state = [], action) => {
+    switch (action.type) {
+        case 'SET_SEARCH_RESULTS':
+            return action.payload;
         default:
             return state;
     }
@@ -89,6 +123,7 @@ const storeInstance = createStore(
     combineReducers({
         movies,
         movieDetails,
+        searchResults,
     }),
     // Add sagaMiddleware to our store
     applyMiddleware(sagaMiddleware, logger),
@@ -97,6 +132,6 @@ const storeInstance = createStore(
 // Pass rootSaga into our sagaMiddleware
 sagaMiddleware.run(rootSaga);
 
-ReactDOM.render(<Provider store={storeInstance}><App /></Provider>, 
+ReactDOM.render(<Provider store={storeInstance}><App /></Provider>,
     document.getElementById('root'));
 registerServiceWorker();

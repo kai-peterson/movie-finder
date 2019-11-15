@@ -20,10 +20,6 @@ class MovieList extends Component {
         this.props.dispatch({ type: 'GET_MOVIES' })
     }
 
-    handleExpansion = () => {
-
-    }
-
     // on click, dispatch to GET_DETAILS saga with specific movie id
     // send users to /details page
 
@@ -31,11 +27,12 @@ class MovieList extends Component {
         return (
             <div className="allMovies">
                 {this.props.movies.map((movie) =>
-                    <MovieItem movie={movie}/>
+                    <MovieItem movie={movie} />
                 )}
                 {/* <img onClick={() => this.handleClick(movie.id)} src={movie.poster} alt={movie.title + ' movie poster'} />
                             <h2>{movie.title}</h2>
                             <p>{movie.description}</p> */}
+                <pre>{JSON.stringify(this.props.searchResults, null, 2)}</pre>
             </div>
         );
     }
