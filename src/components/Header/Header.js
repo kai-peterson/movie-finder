@@ -39,7 +39,7 @@ class Header extends Component {
         return (
             <div className="header">
                 <div className="headerBody">
-                    <h1>Movie Finder</h1>
+                    <h1>Movie YAS Finder</h1>
                     <p className="addNewMovie">
                         Add New Movie: <input onChange={this.handleChange} className="searchBar" type='text' placeholder="SEARCH" value={this.state.searchInput}/>
                     </p>
