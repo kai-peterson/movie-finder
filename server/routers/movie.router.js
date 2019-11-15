@@ -74,42 +74,47 @@ router.get('/tmdb/api/:query', (req, res) => {
 router.post('/tmdb/details', (req, res) => {
     console.log('hit api details route', req.body);
 
+    // hits movie details endpoint with the specific movie id they want to add
     axios({
         method: 'GET',
         url: `https://api.themoviedb.org/3/movie/${req.body.id}`,
         params: {
             api_key: process.env.TMDB_API_KEY
         }
-    })
-        .then((result) => {
-            console.log('THESE ARE THE RESULT FOR ONE MOVIE', result.data);
-            const genres = result.data.genres.map((genreObject) => genreObject.name);
-            const insertQueryText = `INSERT INTO movies(title, poster, description) VALUES($1, $2, $3) RETURNING id`;
-            const queryParams = [result.data.title, 'https://image.tmdb.org/t/p/w300' + result.data.poster_path, result.data.overview];
-            pool.query(insertQueryText, queryParams)
-                .then((result) => {
-                    const newMovieId = result.rows[0].id;
-                    // console.log(newMovieId);
-                    // console.log('THIS IS THE DATA IN NESTED QUERY', result.data);
-                    genres.forEach((genre) => {
-                        pool.query('SELECT * FROM genres WHERE name=$1', [genre])
-                            .then((result) => {
-                                // console.log('CURRENT DATA IM WORKING WITH', result);
-                                if (result.rows.length > 0) {
-                                    const genreId = result.rows[0].id;
-                                    pool.query(`INSERT INTO movies_genres_junction("movie-id", "genre-id") VALUES($1, $2)`, [newMovieId, genreId])
-                                }
-                                else {
-                                    pool.query(`INSERT INTO genres(name) VALUES($1) RETURNING id`, [genre])
-                                        .then((result) => {
-                                            const newGenreId = result.rows[0].id
-                                            pool.query(`INSERT INTO movies_genres_junction("movie-id", "genre-id") VALUES($1, $2)`, [newMovieId, newGenreId])
-                                        })
-                                }
-                            })
-                    })
+    }).then((result) => {
+        // take genres and map them out into an array with only their names
+        console.log('THESE ARE THE RESULT FOR ONE MOVIE', result.data);
+        const genres = result.data.genres.map((genreObject) => genreObject.name);
+        const insertQueryText = `INSERT INTO movies(title, poster, description) VALUES($1, $2, $3) RETURNING id`;
+        const queryParams = [result.data.title, 'https://image.tmdb.org/t/p/w300' + result.data.poster_path, result.data.overview];
+        // insert the new movie into database in movies table
+        pool.query(insertQueryText, queryParams)
+            .then((result) => {
+                // return new movie id
+                const newMovieId = result.rows[0].id;
+                // for each genre
+                // if its in our genre table, insert new row into junction table with new movie id and genre id
+                // if it isn't, add that genre into the genre table
+                // then insert into junction table with new movie id and genre id
+                genres.forEach((genre) => {
+                    pool.query('SELECT * FROM genres WHERE name=$1', [genre])
+                        .then((result) => {
+                            // console.log('CURRENT DATA IM WORKING WITH', result);
+                            if (result.rows.length > 0) {
+                                const genreId = result.rows[0].id;
+                                pool.query(`INSERT INTO movies_genres_junction("movie-id", "genre-id") VALUES($1, $2)`, [newMovieId, genreId])
+                            }
+                            else {
+                                pool.query(`INSERT INTO genres(name) VALUES($1) RETURNING id`, [genre])
+                                    .then((result) => {
+                                        const newGenreId = result.rows[0].id
+                                        pool.query(`INSERT INTO movies_genres_junction("movie-id", "genre-id") VALUES($1, $2)`, [newMovieId, newGenreId])
+                                    })
+                            }
+                        })
                 })
-        })
+            })
+    })
 })
 // res.send(result)
 
