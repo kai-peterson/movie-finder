@@ -74,9 +74,11 @@ class MovieDetails extends Component {
                                     {/* <span className="genreTitle">
                                     Genres: {' '}
                                 </span> */}
-                                    {this.props.movieDetails.genres.map((genre, i) =>
-                                        <span className="genreBox">{genre.name + ' '}</span>
-                                    )}
+                                    <div className="genresContainer">
+                                        {this.props.movieDetails.genres.map((genre, i) =>
+                                            <span className="genreBox">{genre.name + ' '}</span>
+                                        )}
+                                    </div>
                                 </div>
                             }
                         </Paper>

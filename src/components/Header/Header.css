@@ -14,13 +14,14 @@ h1 {
 .addNewMovie {
     display: inline-block;
     color: white;
-    margin: 0 auto;
+    margin: 10px auto;
+    margin-left: 10px;
 }
 
 .searchBar {
     margin-left: 15px;
     padding: 4px;
-    width: 200px;
+    width: 175px;
 }
 
 .searchButton {
