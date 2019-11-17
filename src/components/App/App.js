@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 
 // Component imports
@@ -12,11 +12,11 @@ class App extends Component {
   render() {
     return (
       <Router>
-      <Header />
-      <div className="App">
-        <Route path="/" exact component={MovieList} />
-        <Route path="/details" exact component={MovieDetails} />
-      </div>
+        <Header />
+        <div className="App">
+          <Route path="/" exact component={MovieList} />
+          <Route path="/details/:id" exact component={MovieDetails} />
+        </div>
       </Router>
     );
   }

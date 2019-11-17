@@ -42,7 +42,8 @@ VALUES
 
 -- starter genres
 INSERT INTO "genres" ("name")
-VALUES 
+VALUES
+('Action'),
 ('Adventure'),
 ('Animated'),
 ('Biographical'),
