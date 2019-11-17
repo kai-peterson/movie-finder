@@ -28,7 +28,7 @@ class MovieList extends Component {
     }
 
     handleClick = (id) => {
-        this.props.history.push('/details')
+        this.props.history.push(`/details/${this.props.movie.id}`)
         this.props.dispatch({ type: 'GET_DETAILS', payload: id });
     }
 

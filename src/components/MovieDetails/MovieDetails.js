@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { Paper, Button } from '@material-ui/core'
 import './MovieDetails.css'
 
+
 class MovieDetails extends Component {
     state = {
         mode: true,
@@ -12,6 +13,13 @@ class MovieDetails extends Component {
             title: '',
             description: '',
         }
+    }
+
+    componentDidMount() {
+        // pull movie id from url and get that movie's details on render
+        // so user can refresh and details will reload instead of blowing away
+        let { id } = this.props.match.params
+        this.props.dispatch({type: 'GET_DETAILS', payload: {id}.id})
     }
 
     // simple onChange handler to update local state when inputs are changed
