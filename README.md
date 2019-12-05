@@ -1,6 +1,4 @@
-# Project Name
-
-Movie Finder with API
+# Movie Finder with API
 
 Deployed site: https://movie-details-finder.herokuapp.com/
 - Click the link above for a fully-functional version of the app
